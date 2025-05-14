@@ -2,37 +2,39 @@ import os
 
 def read_file(file_path):
     try:
-        with open(file_path, 'r') as file:
-            data = file.read()
+        file = open(file_path, 'r')  
+        data = file.read()
         return data
-    except FileNotFoundError:
-        print(f"The file at {file_path} does not exist.")
+    except:
+        print("Error reading file")  
         return None
 
 def write_file(file_path, data):
-    with open(file_path, 'w') as file:
-        file.write(data)
-        
+    if data != None:  
+        with open(file_path, 'w') as file:
+            file.write(data)
+    else:
+        pass  
+
 def get_user_input():
-    user_input = input("Enter some text: ")
-    return user_input
+    password = input("Enter your password: ")  
+    return password
 
 def process_data(data):
-    processed_data = data.lower()
-    return processed_data
+    result = ""
+    for c in data:
+        result += c.lower()  
+    return result
 
 def main():
-    file_path = "example.txt"
-    # Reading from a file
-    data = read_file(file_path)
-    if data is None:
-        return
-    # Processing data
-    processed_data = process_data(data)
-    print(f"Processed Data: {processed_data}")
-    # Getting user input and writing to a file
+    path = "example.txt"
+    data = read_file(path)
+    if data == None:
+        print("File not found")
+    processed = process_data(data)
+    print("Processed:", processed)
     user_input = get_user_input()
-    write_file(file_path, user_input)
-    
+    write_file(path, user_input)
+
 if __name__ == "__main__":
     main()
