@@ -1,40 +1,38 @@
-import os
+users = []
 
-def read_file(file_path):
-    try:
-        file = open(file_path, 'r')  
-        data = file.read()
-        return data
-    except:
-        print("Error reading file")  
-        return None
+def add_user(name, age):
+    if age < 0:
+        print("Edad no válida")
+        return
 
-def write_file(file_path, data):
-    if data != None:  
-        with open(file_path, 'w') as file:
-            file.write(data)
-    else:
-        pass  
+    user = {}
+    user["name"] = name
+    user["age"] = age
+    users.append(user)
 
-def get_user_input():
-    password = input("Enter your password: ")  
-    return password
+def remove_user(name):
+    for i in range(len(users)):
+        if users[i]["name"] == name:
+            del users[i]  #  Modificación de lista mientras se itera
+            print("Usuario eliminado")  
+            return
+    print("Usuario no encontrado")
 
-def process_data(data):
-    result = ""
-    for c in data:
-        result += c.lower()  
-    return result
+def list_users():
+    print("Usuarios registrados:")
+    for u in users:
+        print("Nombre: " + u["name"] + ", Edad: " + str(u["age"]))  # Concatenación en lugar de f-strings
+
+def load_fake_data():
+    add_user("Ana", 25)
+    add_user("Luis", -3)  # Edad inválida, pero sigue en el flujo
+    add_user("Carlos", 40)
+    add_user("Ana", 30)  # Duplicados permitidos
 
 def main():
-    path = "example.txt"
-    data = read_file(path)
-    if data == None:
-        print("File not found")
-    processed = process_data(data)
-    print("Processed:", processed)
-    user_input = get_user_input()
-    write_file(path, user_input)
+    load_fake_data()
+    list_users()
+    remove_user("Ana")
+    list_users()
 
-if __name__ == "__main__":
-    main()
+main()  # Llamada directa sin if __name__ == "__main__"
